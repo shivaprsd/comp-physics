@@ -5,7 +5,7 @@
 
 #define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 #define EPS 1e-5
-#define DECK_SIZE 32
+#define DECK_SIZE 32    /* size of the random number shuffle table */
 
 /* Function pointer to f(x, y1, y2...) */
 typedef void (*deriv_func)(double, double [], double []);

@@ -40,23 +40,25 @@ double dist(double *v1, double *v2, int n)
 	return sqrt(d);
 }
 
-/* Return a random real number between lb and ub (both inclusive) */
+/* Return a random real number between lb and ub (both inclusive).
+ * Employs the Bays-Durham shuffling algorithm as given in Num. Recep. */
 double frand(double lb, double ub)
 {
 	int i;
-	static int p = -1;
-	static int deck[DECK_SIZE];
+	static int p = -1;		/* next rand no. chooser */
+	static int deck[DECK_SIZE];	/* shuffling table */
 
 	if (p < 0) {
 		srand(time(NULL));
+		/* Load the table after 8 warmups */
 		for (i = -8; i < DECK_SIZE; ++i)
 			if (i >= 0) deck[i] = rand();
 		p = rand();
 	}
-	i = (int) (p / (RAND_MAX + 1.0) * DECK_SIZE);
-	p = deck[i];
-	deck[i] = rand();
-	return (ub - lb) * p / RAND_MAX + lb;
+	i = (int) (p / (RAND_MAX + 1.0) * DECK_SIZE);	/* i = 0...31 */
+	p = deck[i];		/* next chooser */
+	deck[i] = rand();	/* refill vacancy */
+	return (ub - lb) * p / RAND_MAX + lb;	/* scale & return */
 }
 
 /* Compare two real numbers; tolerance can be defined as EPS */

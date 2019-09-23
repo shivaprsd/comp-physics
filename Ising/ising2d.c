@@ -1,5 +1,5 @@
 /* Program to solve the 2-dimensional Ising model by Metropolis algorithm.
- * Calculates the absolute magnetisation, susceptibility and avgerage energy
+ * Calculates the absolute magnetisation, susceptibility and average energy
  * over a range of temperatures near the phase transition region.
  */
 #include <stdio.h>
@@ -117,12 +117,12 @@ int main()
 	/* Initialise: we choose a "hot-start" */
 	m = genlat(hot);
 	e = olde = elat();
-	h = 0.1;	/* Default temperature stepsize */
+	h = 0.1;	/* Default temperature step-size */
 	k = 2;		/* No. of measurements needed to start adapting h */
 	for (temp = 5; temp >= 0; temp -= h) {
 		fprintf(stderr, "t = %lf\t", temp);
 		metropolis(temp, prob);
-		/* Equilibriation sweeps: without measuring magnetisation */
+		/* Equilibration sweeps: without measuring magnetisation */
 		for (i = 0; i < steps; ++i) {
 			egy = 0.0;
 			sweep(prob, &e, &m, &egy, NULL, NULL);
@@ -146,7 +146,7 @@ int main()
 		de2 = fabs(egy - oldegy);
 		if (--k < 0)
 			/* Check variation in energy over adjacent temperature
-			 * steps and update stepsize */
+			 * steps and update step-size */
 			h *= cbrt(de1 / de2);
 		oldegy = egy;
 		de1 = de2;

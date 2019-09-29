@@ -44,15 +44,17 @@ double dist(double *v1, double *v2, int n)
  * Employs the Bays-Durham shuffling algorithm as given in Num. Recep. */
 double frand(double lb, double ub)
 {
-	int i;
+	int i, r;
 	static int p = -1;		/* next rand no. chooser */
 	static int deck[DECK_SIZE];	/* shuffling table */
 
 	if (p < 0) {
 		srand(time(NULL));
 		/* Load the table after 8 warmups */
-		for (i = -8; i < DECK_SIZE; ++i)
-			if (i >= 0) deck[i] = rand();
+		for (i = -8; i < DECK_SIZE; ++i) {
+			r = rand();
+			if (i >= 0) deck[i] = r;
+		}
 		p = rand();
 	}
 	i = (int) (p / (RAND_MAX + 1.0) * DECK_SIZE);	/* i = 0...31 */

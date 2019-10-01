@@ -36,11 +36,15 @@ void scale(double *v, int n, double k)
  * proj(v, u) = v.u * u / u.u */
 double *proj(double *v, double *u, int n)
 {
-	double *t;
+	double a, *t;
 
 	t = vector(n);
 	copy_vec(u, t, n);
-	scale(t, n, dot(u, v, n) / dot(u, u, n));
+	a = dot(u, u, n);
+	if (a == 0.0)
+		scale(t, n, 0.0);	/* projection along zero vector = 0 */
+	else
+		scale(t, n, dot(u, v, n) / a);
 	return t;
 }
 
@@ -51,14 +55,16 @@ void sub(double *v, double *u, int n)
 		*v++ -= *u++;
 }
 
-/* Normalise given vector v */
+/* Normalize given vector v */
 void norm(double *v, int n)
 {
 	double a;
 
 	a = sqrt(dot(v, v, n));
-	for (; n > 0; --n)
-		*v++ /= a;
+	if (a != 0.0) {		/* don't normalize zero vector */
+		for (; n > 0; --n)
+			*v++ /= a;
+	}
 }
 
 /* Print the elements of an array of size n */
@@ -158,7 +164,7 @@ void rk4(double x, double y[], int n, deriv_func f, double h, double yout[])
 	free(dys);
 }
 
-/* Orthonormalise a set of m n-dimensional vectors by Gram–Schmidt procedure */
+/* Orthonormalize a set of m n-dimensional vectors by Gram–Schmidt procedure */
 void ortho(double **u, int m, int n)
 {
 	int i, k;
@@ -171,6 +177,6 @@ void ortho(double **u, int m, int n)
 			sub(u[k], p, n);
 			free(p);
 		}
-		norm(u[k], n);	/* normalise */
+		norm(u[k], n);	/* normalize */
 	}
 }

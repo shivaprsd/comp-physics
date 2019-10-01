@@ -15,6 +15,52 @@ double *vector(int n)
 	return v;
 }
 
+/* Compute inner-product of two vectors: u.v */
+double dot(double *u, double *v, int n)
+{
+	double s;
+
+	for (s = 0.0; n > 0; --n)
+		s += *u++ * *v++;
+	return s;
+}
+
+/* Multiply vector by a scalar k */
+void scale(double *v, int n, double k)
+{
+	for (; n > 0; --n)
+		*v++ *= k;
+}
+
+/* Return the projection of v along u as a dynamically allocated vector *
+ * proj(v, u) = v.u * u / u.u */
+double *proj(double *v, double *u, int n)
+{
+	double *t;
+
+	t = vector(n);
+	copy_vec(u, t, n);
+	scale(t, n, dot(u, v, n) / dot(u, u, n));
+	return t;
+}
+
+/* Subtract vector u from v: v - u */
+void sub(double *v, double *u, int n)
+{
+	for (; n > 0; --n)
+		*v++ -= *u++;
+}
+
+/* Normalise given vector v */
+void norm(double *v, int n)
+{
+	double a;
+
+	a = sqrt(dot(v, v, n));
+	for (; n > 0; --n)
+		*v++ /= a;
+}
+
 /* Print the elements of an array of size n */
 void print_vec(double *v, int n)
 {

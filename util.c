@@ -158,3 +158,19 @@ void rk4(double x, double y[], int n, deriv_func f, double h, double yout[])
 	free(dys);
 }
 
+/* Orthonormalise a set of m n-dimensional vectors by Gram–Schmidt procedure */
+void ortho(double **u, int m, int n)
+{
+	int i, k;
+	double *p;
+
+	for (k = 0; k < m; ++k) {
+		/* Subtract components along all u[i < k] from u[k] */
+		for (i = 0; i < k; ++i) {
+			p = proj(u[k], u[i], n);
+			sub(u[k], p, n);
+			free(p);
+		}
+		norm(u[k], n);	/* normalise */
+	}
+}

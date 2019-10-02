@@ -165,8 +165,9 @@ void rk4(double x, double y[], int n, deriv_func f, double h, double yout[])
 	free(dys);
 }
 
-/* Orthonormalize a set of m n-dimensional vectors by Gram–Schmidt procedure */
-void ortho(double **u, int m, int n)
+/* Orthonormalize a set of <m> n-dimensional vectors by Gram–Schmidt procedure *
+ * and store their original norms in <a> */
+void ortho(double **u, int m, int n, double *a)
 {
 	int i, k;
 	double *p;
@@ -178,6 +179,7 @@ void ortho(double **u, int m, int n)
 			sub(u[k], p, n);
 			free(p);
 		}
-		norm(u[k], n);	/* normalize */
+		/* Normalize u[k] & store its original norm */
+		a[k] = norm(u[k], n);
 	}
 }

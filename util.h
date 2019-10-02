@@ -25,6 +25,6 @@ double frand(double lb, double ub);
 enum bool eq(double x, double y);
 
 void rk4(double x, double y[], int n, deriv_func f, double h, double yout[]);
-void ortho(double **u, int m, int n);
+void ortho(double **u, int m, int n, double *a);
 
 #endif

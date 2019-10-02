@@ -16,7 +16,7 @@ double dot(double *u, double *v, int n);
 void scale(double *v, int n, double k);
 double *proj(double *v, double *u, int n);
 void sub(double *v, double *u, int n);
-void norm(double *v, int n);
+double norm(double *v, int n);
 void print_vec(double *v, int n);
 void copy_vec(double *s, double *t, int n);
 

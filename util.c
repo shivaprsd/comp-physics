@@ -55,8 +55,8 @@ void sub(double *v, double *u, int n)
 		*v++ -= *u++;
 }
 
-/* Normalize given vector v */
-void norm(double *v, int n)
+/* Normalize given vector v and return its original norm */
+double norm(double *v, int n)
 {
 	double a;
 
@@ -65,6 +65,7 @@ void norm(double *v, int n)
 		for (; n > 0; --n)
 			*v++ /= a;
 	}
+	return a;
 }
 
 /* Print the elements of an array of size n */

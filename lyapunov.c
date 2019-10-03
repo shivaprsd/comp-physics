@@ -1,6 +1,5 @@
 #include <math.h>
 #include "util.h"
-#define DIM 3
 /* Lorenz attractor parameters */
 #define SIGMA 10.0
 #define RHO 28.0
@@ -20,7 +19,7 @@ void lorenz(double t, double r[3], double rdot[3])
 	rdot[2] = x * y - BETA * z;
 }
 
-void lortang(double t, double w[12], double wdot[12])
+void lortan(double t, double w[12], double wdot[12])
 {
 	int i;
 	double x, y, z, w1, w2, w3;
@@ -45,7 +44,7 @@ void rossler(double t, double r[3], double rdot[3])
 	rdot[2] = B + z * (x - C);
 }
 
-void rosstang(double t, double w[12], double wdot[12])
+void rosstan(double t, double w[12], double wdot[12])
 {
 	int i;
 	double x, y, z, w1, w2, w3;
@@ -60,33 +59,42 @@ void rosstang(double t, double w[12], double wdot[12])
 	}
 }
 
-int main()
+void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 {
 	const int n = 1e7;
-	const int l = (DIM + 1) * DIM;
+	const int l = (d + 1) * d;
 	int i, t;
 	double h;
-	double w[l], *v[DIM], a[DIM], lna[DIM];
+	double w[l], *v[d], a[d], lna[d];
 
-	scale(lna, DIM, 0.0);
+	scale(lna, d, 0.0);
 	scale(w, l, 0.0);
-	w[0] = 1.0; w[1] = 0.0; w[2] = 5.0;
-	for (i = 0; i < DIM; ++i) {
-		v[i] = &w[(i + 1) * DIM];
+	copy_vec(r0, w, d);
+	for (i = 0; i < d; ++i) {
+		v[i] = &w[(i + 1) * d];
 		v[i][i] = 1.0;
 	}
 	h = 0.001;
 	t = 0;
 	while (t < n) {
-		rk4(h * t++, w, l, lortang, h, w);
+		rk4(h * t++, w, l, tanevol, h, w);
 		if (t % 100 == 0) {
-			ortho(v, DIM, DIM, a);
-			for (i = 0; i < DIM; ++i)
+			ortho(v, d, d, a);
+			for (i = 0; i < d; ++i)
 				lna[i] += log(a[i]);
 		}
 	}
-	scale(lna, DIM, 1.0 / (n * h));
-	print_vec(lna, DIM);
+	scale(lna, d, 1.0 / (n * h * log(b)));
+	print_vec(lna, d);
+}
+
+int main()
+{
+	double r[3];
+
+	r[0] = 1.0; r[1] = 0.0; r[2] = 5.0;
+	lyaspec(lortan, r, 3, M_E);
+	lyaspec(rosstan, r, 3, M_E);
 	return 0;
 }
 

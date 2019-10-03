@@ -25,6 +25,22 @@ void hh_evol(double t, double v[4], double vdot[4])
 	vdot[3] = -y - x * x + y * y;
 }
 
+void hh_tan(double t, double w[20], double wdot[20])
+{
+	int i;
+	double x, y, w1, w2;
+	x = w[0], y = w[1];
+
+	hh_evol(t, w, wdot);
+	for (i = 4; i < 20; i += 4) {
+		w1 = w[i], w2 = w[i + 1];
+		wdot[i] = w[i + 2];
+		wdot[i + 1] = w[i + 3];
+		wdot[i + 2] = -(2 * y + 1) * w1 - 2 * x * w2;
+		wdot[i + 3] = -2 * x * w1 + (2 * y - 1) * w2;
+	}
+}
+
 /* Return x-coordinate of the equipotential line u at y
  * Returns -1 if the point is invalid */
 double hh_equi(double y, double u)
@@ -69,6 +85,21 @@ void hh_map(double xin[2], double xout[2], double a)
 	xt = xin[0] + a * (xin[1] - pow(xin[1], 3));
 	xout[1] = xin[1] - a * (xt - pow(xt, 3));
 	xout[0] = xt;
+}
+
+void hh_map_tan(double win[6], double wout[6], double a)
+{
+	int i;
+	double xn, y, w1, w2;
+	y = win[1];
+
+	hh_map(win, wout, a);
+	xn = wout[0];
+	for (i = 2; i < 6; i += 2) {
+		w1 = win[i], w2 = win[i + 1];
+		wout[i] = w1 + a * (1 - 3 * y * y) * w2;
+		wout[i + 1] = w2 - a * (1 - 3 * xn * xn) * wout[i];
+	}
 }
 
 /* Print the coordinates of the equipotential lines for a number of u values

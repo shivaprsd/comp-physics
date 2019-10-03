@@ -1,9 +1,14 @@
 #include <math.h>
 #include "util.h"
+#define DIM 3
+/* Lorenz attractor parameters */
 #define SIGMA 10.0
 #define RHO 28.0
 #define BETA (8.0 / 3)
-#define DIM 3
+/* Rössler attractor parameters */
+#define A 0.15
+#define B 0.2
+#define C 10.0
 
 void lorenz(double t, double r[3], double rdot[3])
 {
@@ -30,17 +35,28 @@ void lortang(double t, double w[12], double wdot[12])
 	}
 }
 
-void plotlor(int n)
+void rossler(double t, double r[3], double rdot[3])
 {
-	double h, r[3];
-	int t;
+	double x, y, z;
+	x = r[0], y = r[1], z = r[2];
 
-	r[0] = 1.0; r[1] = 0.0; r[2] = 5.0;
-	h = 0.001;
-	t = 0;
-	while (t < n) {
-		rk4(h * t++, r, 3, lorenz, h, r);
-		print_vec(r, 3);
+	rdot[0] = -y - z;
+	rdot[1] = x + A * y;
+	rdot[2] = B + z * (x - C);
+}
+
+void rosstang(double t, double w[12], double wdot[12])
+{
+	int i;
+	double x, y, z, w1, w2, w3;
+	x = w[0], y = w[1], z = w[2];
+
+	rossler(t, w, wdot);
+	for (i = 3; i < 12; i += 3) {
+		w1 = w[i], w2 = w[i + 1], w3 = w[i + 2];
+		wdot[i] = -w2 - w3;
+		wdot[i + 1] = w1 + A * w2;
+		wdot[i + 2] = z * w1 + (x - C) * w3;
 	}
 }
 
@@ -72,4 +88,32 @@ int main()
 	scale(lna, DIM, 1.0 / (n * h));
 	print_vec(lna, DIM);
 	return 0;
+}
+
+void plotlor(int n)
+{
+	double h, r[3];
+	int t;
+
+	r[0] = 1.0; r[1] = 0.0; r[2] = 5.0;
+	h = 0.001;
+	t = 0;
+	while (t < n) {
+		rk4(h * t++, r, 3, lorenz, h, r);
+		print_vec(r, 3);
+	}
+}
+
+void plotross(int n)
+{
+	double h, r[3];
+	int t;
+
+	scale(r, 3, 0.0);
+	h = 0.001;
+	t = 0;
+	while (t < n) {
+		rk4(h * t++, r, 3, rossler, h, r);
+		print_vec(r, 3);
+	}
 }

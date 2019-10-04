@@ -1,5 +1,6 @@
 #include <math.h>
 #include "util.h"
+#include "henon_heiles.h"
 /* Lorenz attractor parameters */
 #define SIGMA 10.0
 #define RHO 28.0
@@ -90,11 +91,21 @@ void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 
 int main()
 {
-	double r[3];
+	double egy, r[4];
 
 	r[0] = 1.0; r[1] = 0.0; r[2] = 5.0;
 	lyaspec(lortan, r, 3, M_E);
 	lyaspec(rosstan, r, 3, M_E);
+
+	egy = 1 / 6.0;
+	r[0] = r[3] = 0.0;
+	r[1] = 0.5;
+	r[2] = px(egy, r[0], r[1], r[3]);
+	lyaspec(hh_tan, r, 4, M_E);
+
+	r[1] = 0.3;
+	r[2] = px(egy, r[0], r[1], r[3]);
+	lyaspec(hh_tan, r, 4, M_E);
 	return 0;
 }
 

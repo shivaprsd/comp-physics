@@ -2,12 +2,12 @@
 #include "util.h"
 #include "henon_heiles.h"
 /* Lorenz attractor parameters */
-#define SIGMA 10.0
-#define RHO 28.0
-#define BETA (8.0 / 3)
+#define SIGMA 16.0
+#define RHO 45.92
+#define BETA 4.0
 /* Rössler attractor parameters */
 #define A 0.15
-#define B 0.2
+#define B 0.20
 #define C 10.0
 
 void lorenz(double t, double r[3], double rdot[3])

@@ -5,6 +5,7 @@
  * Author: Shivaprasad V					Date: 5 Oct 2019
  * Credentials: PH18C032, M.Sc. Physics '18-'20, IIT Madras, IND
  */
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "util.h"
@@ -129,17 +130,29 @@ int main()
 
 	/* Lorenz and Rössler attractors */
 	r[0] = 1.0; r[1] = 0.0; r[2] = 5.0;
+	printf("Lyapunov spectra (to the base e):\n\n");
+	printf("Lorenz System: with σ = %.2lf, ρ = %.2lf, β = %.2lf\n"
+		"λ1, λ2, λ3:\t", SIGMA, RHO, BETA);
 	lyaspec(lortan, r, 3, M_E);
+	putchar('\n');
+	printf("Rössler Attractor: with a = %.2lf, b = %.2lf, c = %.2lf\n"
+		"λ1, λ2, λ3:\t", A, B, C);
 	lyaspec(rosstan, r, 3, M_E);
+	putchar('\n');
 	/* Hénon-Heiles system: for an invariant trajectory */
 	egy = 1 / 6.0;
 	r[0] = r[3] = 0.0;
 	r[1] = 0.5;
 	r[2] = px(egy, r[0], r[1], r[3]);
+	printf("Hénon-Heiles potential: Invariant trajectory with E = %.3lf\n"
+		"λ1, λ2, λ3, λ4:\t", egy);
 	lyaspec(hh_tan, r, 4, M_E);
+	putchar('\n');
 	/* Hénon-Heiles system: for an ergodic trajectory */
 	r[1] = 0.3;
 	r[2] = px(egy, r[0], r[1], r[3]);
+	printf("Hénon-Heiles potential: Ergodic trajectory with E = %.3lf\n"
+		"λ1, λ2, λ3, λ4:\t", egy);
 	lyaspec(hh_tan, r, 4, M_E);
 	return 0;
 }

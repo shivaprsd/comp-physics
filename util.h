@@ -11,6 +11,7 @@
 typedef void (*deriv_func)(double, double [], double []);
 enum bool { false, true };
 
+/* Vector manipulation functions */
 double *vector(int n);
 double dot(double *u, double *v, int n);
 void scale(double *v, int n, double k);
@@ -24,6 +25,7 @@ double dist(double *v1, double *v2, int n);
 double frand(double lb, double ub);
 enum bool eq(double x, double y);
 
+/* Special purpose functions */
 void rk4(double x, double y[], int n, deriv_func f, double h, double yout[]);
 void ortho(double **u, int m, int n, double *a);
 

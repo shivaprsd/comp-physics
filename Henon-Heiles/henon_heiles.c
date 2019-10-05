@@ -25,15 +25,20 @@ void hh_evol(double t, double v[4], double vdot[4])
 	vdot[3] = -y - x * x + y * y;
 }
 
+/* Compute the time derivative of tangents in phase space for H-H potential.
+ * w[] should contain the position vector of the current point, followed by
+ * the 4 tangent vectors => 20 components; same order for derivatives in wdot[]
+ */
 void hh_tan(double t, double w[20], double wdot[20])
 {
 	int i;
 	double x, y, w1, w2;
-	x = w[0], y = w[1];
+	x = w[0], y = w[1];		/* store the current x, y coordinates */
 
-	hh_evol(t, w, wdot);
-	for (i = 4; i < 20; i += 4) {
+	hh_evol(t, w, wdot);		/* evolve the coordinates part */
+	for (i = 4; i < 20; i += 4) {	/* loop through each tangent vector */
 		w1 = w[i], w2 = w[i + 1];
+		/* Hénon-Heiles tangent evolution equations */
 		wdot[i] = w[i + 2];
 		wdot[i + 1] = w[i + 3];
 		wdot[i + 2] = -(2 * y + 1) * w1 - 2 * x * w2;
@@ -87,6 +92,8 @@ void hh_map(double xin[2], double xout[2], double a)
 	xout[0] = xt;
 }
 
+/* Compute the next iteration of tangents in the Hénon-Heiles map.
+ * Similar to hh_tan() above */
 void hh_map_tan(double win[6], double wout[6], double a)
 {
 	int i;

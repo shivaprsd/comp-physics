@@ -1,10 +1,11 @@
 /* Program to compute the Lyapunov spectrum of various smooth dynamical systems
  * by the  method of tangent-vectors evolution with periodic Gram-Schmidt ortho-
  * normalization.
- * Language: C	(standard: C99)					Version: 1.0
+ * Language: C	(standard: ANSI C)				Version: 1.0
  * Author: Shivaprasad V					Date: 5 Oct 2019
  * Credentials: PH18C032, M.Sc. Physics '18-'20, IIT Madras, IND
  */
+#include <stdlib.h>
 #include <math.h>
 #include "util.h"
 #include "henon_heiles.h"
@@ -88,22 +89,26 @@ void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 	const int n = 1e7;		/* no. of RK4 steps */
 	const int l = (d + 1) * d;	/* no. of components to evolve */
 	int i, t;
-	double h;
-	double w[l], *v[d], a[d], lna[d];
+	double h, *w, *a, *lna, **v;
 
 	/* Initialize */
-	scale(lna, d, 0.0);		/* set lna to [0 0 ... 0] */
-	scale(w, l, 0.0);		/* set w to [0 0 ... 0] */
-	copy_vec(r0, w, d);		/* store coordinates at the beg of w */
+	w = vector(l);		/* to store coordinates + tangent components */
+	a = vector(d);		/* to store scaling factors @ each ortho-step */
+	lna = vector(d);	/* to store sum of log of scaling factors */
+	scale(lna, d, 0.0);	/* set lna to [0 0 ... 0] */
+	scale(w, l, 0.0);	/* set w to [0 0 ... 0] */
+	copy_vec(r0, w, d);	/* store coordinates at the beg of w */
+	/* Store pointers to the tangent vectors, for passing them to ortho() */
+	v = (double **) malloc((size_t) d * sizeof(double *));
 	for (i = 0; i < d; ++i) {
 		v[i] = &w[(i + 1) * d];		/* pointer to i-th tan vector */
 		v[i][i] = 1.0;			/* make orthonormal initially */
 	}
-	h = 0.001;
-	t = 0;
+	/* Evolution */
+	h = 0.001, t = 0;
 	while (t < n) {
 		rk4(h * t++, w, l, tanevol, h, w);
-		if (t % 100 == 0) {	/* orthonormalise every 100th step */
+		if (t % 100 == 0) {	/* orthonormalise at every 100th step */
 			ortho(v, d, d, a);
 			/* Sum over the natural log of each scaling factor */
 			for (i = 0; i < d; ++i)
@@ -113,6 +118,8 @@ void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 	/* Divide by total time and convert the exponent to base <b> */
 	scale(lna, d, 1.0 / (n * h * log(b)));
 	print_vec(lna, d);
+	/* Cleanup */
+	free(w); free(a); free(lna); free(v);
 }
 
 /* Main program: compute the Lyapunov spectrum (to the base 'e') of 3 systems */

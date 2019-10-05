@@ -15,6 +15,13 @@ double *vector(int n)
 	return v;
 }
 
+/* Set all the elements of vector v to k */
+void set(double *v, int n, double k)
+{
+	for (; n > 0; --n)
+		*v++ = k;
+}
+
 /* Compute inner-product of two vectors: u.v */
 double dot(double *u, double *v, int n)
 {

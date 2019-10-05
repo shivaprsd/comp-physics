@@ -95,8 +95,8 @@ void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 	w = vector(l);		/* to store coordinates + tangent components */
 	a = vector(d);		/* to store scaling factors @ each ortho-step */
 	lna = vector(d);	/* to store sum of log of scaling factors */
-	scale(lna, d, 0.0);	/* set lna to [0 0 ... 0] */
-	scale(w, l, 0.0);	/* set w to [0 0 ... 0] */
+	set(w, l, 0.0);
+	set(lna, d, 0.0);
 	copy_vec(r0, w, d);	/* store coordinates at the beg of w */
 	/* Store pointers to the tangent vectors, for passing them to ortho() */
 	v = (double **) malloc((size_t) d * sizeof(double *));
@@ -166,7 +166,7 @@ void plotross(int n)
 	double h, r[3];
 	int t;
 
-	scale(r, 3, 0.0);
+	set(r, 3, 0.0);
 	h = 0.001;
 	t = 0;
 	while (t < n) {

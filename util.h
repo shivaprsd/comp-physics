@@ -13,6 +13,7 @@ enum bool { false, true };
 
 /* Vector manipulation functions */
 double *vector(int n);
+void set(double *v, int n, double k);
 double dot(double *u, double *v, int n);
 void scale(double *v, int n, double k);
 double *proj(double *v, double *u, int n);

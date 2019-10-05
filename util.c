@@ -75,11 +75,11 @@ double norm(double *v, int n)
 	return a;
 }
 
-/* Print the elements of an array of size n */
-void print_vec(double *v, int n)
+/* Print the elements of an array of size n in given format */
+void print_vec(double *v, int n, const char *fmt)
 {
 	for (; n > 0; --n)
-		printf("%.7lf\t", *v++);
+		printf(fmt, *v++);
 	putchar('\n');
 }
 

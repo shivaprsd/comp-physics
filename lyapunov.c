@@ -117,7 +117,7 @@ void lyaspec(deriv_func tanevol, double r0[], int d, double b)
 	}
 	/* Divide by total time and convert the exponent to base <b> */
 	scale(lna, d, 1.0 / (n * h * log(b)));
-	print_vec(lna, d);
+	print_vec(lna, d, "%.2lf\t");
 	/* Cleanup */
 	free(w); free(a); free(lna); free(v);
 }
@@ -156,7 +156,7 @@ void plotlor(int n)
 	t = 0;
 	while (t < n) {
 		rk4(h * t++, r, 3, lorenz, h, r);
-		print_vec(r, 3);
+		print_vec(r, 3, "%e\t");
 	}
 }
 
@@ -171,6 +171,6 @@ void plotross(int n)
 	t = 0;
 	while (t < n) {
 		rk4(h * t++, r, 3, rossler, h, r);
-		print_vec(r, 3);
+		print_vec(r, 3, "%e\t");
 	}
 }

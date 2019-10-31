@@ -11,7 +11,7 @@ int main()
 {
 	const double sigma_sqr = SQR(L / 20.0);
 	const double x0 = L / 4.0;
-	const double k0 = 100 * M_PI;
+	const double k0 = 50 * sqrt(2) * M_PI;
 	const int jmax = 20 * k0 / M_PI;
 	const int nmax = 1520;
 	const double dx = 1.0 / jmax;

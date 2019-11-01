@@ -9,11 +9,10 @@ set xrange [180:1234]
 #set tics scale 0 font "Avenir,16" enhanced
 unset tics
 
-#stats datafile
 do for [j in frames] {
     set out 'tmp/img'.sprintf("%.4d", int(j)).'.png'
     #set label at graph 0.96, graph 0.94 right font ",48" "E = V_0"
     set label at graph 0.04, graph 0.94 font ",48" sprintf("%d", int(j))
-    plot datafile i int(j) u 1 w l ls 10 not, '' i int(j) u ($2/1.5) w l ls 10 not
+    plot datafile i int(j + 1) w l ls 10 not, '' i 0 u ($1 / 1.5) w l ls 10 not
     unset label
 }

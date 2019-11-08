@@ -24,6 +24,7 @@ void copy_vec(double *s, double *t, int n);
 
 double dist(double *v1, double *v2, int n);
 double frand(double lb, double ub);
+double gauss(double mu, double sig);
 enum bool eq(double x, double y);
 
 /* Special purpose functions */

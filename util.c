@@ -123,6 +123,28 @@ double frand(double lb, double ub)
 	return (ub - lb) * p / RAND_MAX + lb;	/* scale & return */
 }
 
+/* Return a random number from the Gaussian distribution centred at <mu> having
+ * a std. deviation <sig>. Employs the Marsaliga / Box-Muller polar method. */
+double gauss(double mu, double sig)
+{
+	double u, s;
+	static double v;
+	static enum bool gen = false;
+	gen = !gen;			/* generate afresh every other call */
+
+	if (!gen)
+		return v * sig + mu;	/* return spare */
+	/* Get a random point (u, v) within the unit circle centred at origin */
+	do {
+		u = frand(-1, 1);
+		v = frand(-1, 1);
+		s = u * u + v * v;
+	} while (s >= 1.0 || s == 0.0);
+	s = sqrt(-2 * log(s) / s);	/* polar scaling */
+	v *= s;				/* store spare & return the other */
+	return u * s * sig + mu;
+}
+
 /* Compare two real numbers; tolerance can be defined as EPS */
 enum bool eq(double x, double y)
 {

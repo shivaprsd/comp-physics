@@ -1,0 +1,78 @@
+# NPRED = 4096; NMAX = 12 * NPRED for all except last case, for which they
+# are 8192 and 20 * NPRED respectively
+
+# Time series prediction - normalised errors (for T = 1 to 15)
+# System: logistic map; embedding dimension: 1; order of approximation: 1
+9.1558981e-05
+1.7956436e-04
+3.6137470e-04
+7.1803014e-04
+1.4724104e-03
+2.8804143e-03
+5.8018374e-03
+1.1591538e-02
+2.3217186e-02
+4.6729025e-02
+9.1394171e-02
+1.8263169e-01
+3.5262083e-01
+6.5240047e-01
+1.0032461e+00
+
+
+# Time series prediction - normalised errors (for T = 1 to 15)
+# System: Henon map; embedding dimension: 2; order of approximation: 1
+1.0351781e-03
+1.8765964e-03
+2.9851240e-03
+4.6684646e-03
+7.3680526e-03
+1.1762274e-02
+1.8796831e-02
+3.1839376e-02
+5.2415430e-02
+8.2063726e-02
+1.3756353e-01
+2.1510419e-01
+3.2212859e-01
+4.4364439e-01
+5.8286487e-01
+
+
+# Time series prediction - normalised errors (for T = 1 to 15)
+# System: logistic map; embedding dimension: 1; order of approximation: 3
+1.7316693e-08
+7.5482188e-08
+3.0916636e-07
+1.2622930e-06
+5.0231438e-06
+2.0258334e-05
+7.6935254e-05
+3.1630747e-04
+1.3042838e-03
+5.2117716e-03
+2.0800649e-02
+7.8984753e-02
+2.6831761e-01
+7.1229205e-01
+1.2457418e+00
+
+
+# Time series prediction - normalised errors (for T = 1 to 15)
+# System: Henon map; embedding dimension: 2; order of approximation: 13
+1.5026586e-06
+5.5099679e-06
+1.6568780e-05
+5.9919880e-05
+1.3384378e-04
+3.5661247e-04
+1.0348450e-03
+2.9280565e-03
+8.8420334e-03
+2.4532271e-02
+6.7590821e-02
+1.4305080e-01
+2.5725474e-01
+4.8830275e-01
+7.7129536e-01
+

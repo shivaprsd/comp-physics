@@ -15,6 +15,19 @@ double *vector(int n)
 	return v;
 }
 
+double **matrix(int m, int n)
+{
+	int i;
+	double **a;
+
+	a = (double **) malloc((size_t) m * sizeof(double *));
+	if (n) {
+		for (i = 0; i <	m; ++i)
+			a[i] = vector(n);
+	}
+	return a;
+}
+
 /* Set all the elements of vector v to k */
 void set(double *v, int n, double k)
 {
@@ -98,6 +111,33 @@ double dist(double *v1, double *v2, int n)
 	for (d = 0.0; n > 0; --n)
 		d += pow((*v1++ - *v2++), 2);
 	return sqrt(d);
+}
+
+void ins(int val, int *q, int n, int pos)
+{
+	for (--n; n > pos; --n)
+		q[n] = q[n - 1];
+	q[pos] = val;
+}
+
+void fins(double val, double *q, int n, int pos)
+{
+	for (--n; n > pos; --n)
+		q[n] = q[n - 1];
+	q[pos] = val;
+}
+
+double rmsd(double *x, int n)
+{
+	int i;
+	double s, xm;
+
+	for (s = i = 0; i < n; s += x[i++])
+		;
+	xm = s / n;
+	for (s = i = 0; i < n; ++i)
+		s += pow(x[i] - xm, 2);
+	return sqrt(s / n);
 }
 
 /* Return a random real number between lb and ub (both inclusive).
@@ -210,5 +250,35 @@ void ortho(double **u, int m, int n, double *a)
 		}
 		/* Normalize u[k] & store its original norm */
 		a[k] = norm(u[k], n);
+	}
+}
+
+void qrd(double **a, double **q, double **r, int m, int n)
+{
+	int i, j;
+	double *t;
+
+	t = vector(n);
+	for (i = 0; i < n; ++i) {
+		copy_vec(a[i], q[i], m);
+		set(r[i], n, 0.0);
+	}
+	ortho(q, n, m, t);
+	for (i = 0; i < n; ++i) {
+		r[i][i] = t[i];
+		for (j = i + 1; j < n; ++j)
+			r[j][i] = dot(q[i], a[j], m);
+	}
+	free(t);
+}
+
+void bsub(double **r, int n, double *b)
+{
+	int i, j;
+
+	for (i = n - 1; i >= 0; --i) {
+		for (j = i + 1; j < n; ++j)
+			b[i] -= b[j] * r[j][i];
+		b[i] /= r[i][i];
 	}
 }

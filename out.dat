@@ -3,6 +3,7 @@
 
 # Time series prediction - normalised errors (for T = 1 to 15)
 # System: logistic map; embedding dimension: 1; order of approximation: 1
+"Logistic (0)"
 9.1558981e-05
 1.7956436e-04
 3.6137470e-04
@@ -22,6 +23,7 @@
 
 # Time series prediction - normalised errors (for T = 1 to 15)
 # System: Henon map; embedding dimension: 2; order of approximation: 1
+"Hénon (0)"
 1.0351781e-03
 1.8765964e-03
 2.9851240e-03
@@ -41,6 +43,7 @@
 
 # Time series prediction - normalised errors (for T = 1 to 15)
 # System: logistic map; embedding dimension: 1; order of approximation: 3
+"Logistic (1) k = 3"
 1.7316693e-08
 7.5482188e-08
 3.0916636e-07
@@ -60,6 +63,7 @@
 
 # Time series prediction - normalised errors (for T = 1 to 15)
 # System: Henon map; embedding dimension: 2; order of approximation: 13
+"Hénon (1) k = 13"
 1.5026586e-06
 5.5099679e-06
 1.6568780e-05

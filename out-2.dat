@@ -1,0 +1,8 @@
+# Time series prediction:
+# N vs E for fixed T = 3
+"Logistic map"
+100	2.3576359e-02
+400	2.2309831e-03
+1600	4.4080042e-04
+6400	2.0108118e-05
+25600	1.3291161e-06

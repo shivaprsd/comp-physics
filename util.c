@@ -15,6 +15,7 @@ double *vector(int n)
 	return v;
 }
 
+/* Dynamically allocate an m x n matrix of doubles */
 double **matrix(int m, int n)
 {
 	int i;
@@ -113,6 +114,8 @@ double dist(double *v1, double *v2, int n)
 	return sqrt(d);
 }
 
+/* Insert integer <val> in array <q> of size <n> at the index <pos>, pushing
+ * the remaining elements back & discarding the last element, as in a 'queue' */
 void ins(int val, int *q, int n, int pos)
 {
 	for (--n; n > pos; --n)
@@ -120,6 +123,7 @@ void ins(int val, int *q, int n, int pos)
 	q[pos] = val;
 }
 
+/* Same as ins(), for double arrays */
 void fins(double val, double *q, int n, int pos)
 {
 	for (--n; n > pos; --n)
@@ -127,15 +131,17 @@ void fins(double val, double *q, int n, int pos)
 	q[pos] = val;
 }
 
+/* Compute the root-mean-squared deviation (uncorrected for bias) of a set of
+ * data <x> of size <n> by Two-pass algorithm */
 double rmsd(double *x, int n)
 {
 	int i;
 	double s, xm;
 
-	for (s = i = 0; i < n; s += x[i++])
+	for (s = i = 0; i < n; s += x[i++])	/* first pass to find mean */
 		;
 	xm = s / n;
-	for (s = i = 0; i < n; ++i)
+	for (s = i = 0; i < n; ++i)		/* second pass */
 		s += pow(x[i] - xm, 2);
 	return sqrt(s / n);
 }
@@ -253,17 +259,20 @@ void ortho(double **u, int m, int n, double *a)
 	}
 }
 
+/* QR decompose an m x n matrix <A> (with m >= n) into m x n <Q> and n x n <R>.
+ * All the three matrices are expected to be in column-major order. */
 void qrd(double **a, double **q, double **r, int m, int n)
 {
 	int i, j;
 	double *t;
 
-	t = vector(n);
 	for (i = 0; i < n; ++i) {
 		copy_vec(a[i], q[i], m);
 		set(r[i], n, 0.0);
 	}
-	ortho(q, n, m, t);
+	t = vector(n);
+	ortho(q, n, m, t);		/* orthonormalize Q */
+	/* R = Q'A = dot(Q, A); but we need to compute only for j >= i */
 	for (i = 0; i < n; ++i) {
 		r[i][i] = t[i];
 		for (j = i + 1; j < n; ++j)
@@ -272,11 +281,14 @@ void qrd(double **a, double **q, double **r, int m, int n)
 	free(t);
 }
 
+/* Solve matrix equation Rx = b by back substitution in-place (i.e. converting
+ * <b> to the solution vector <x>), assuming solution exists. R should be n x n
+ * in column-major order; b should be an n-element vector. */
 void bsub(double **r, int n, double *b)
 {
 	int i, j;
 
-	for (i = n - 1; i >= 0; --i) {
+	for (i = n - 1; i >= 0; --i) {		/* start from last row */
 		for (j = i + 1; j < n; ++j)
 			b[i] -= b[j] * r[j][i];
 		b[i] /= r[i][i];

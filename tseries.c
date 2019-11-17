@@ -10,7 +10,7 @@
 #define MU 4.0
 #define A 1.4
 #define B 0.3
-enum dynsys { LOG_MAP, HEN_MAP };
+enum dynsys { LOG_MAP, HEN_MAP, REAL_WLD };
 
 void genseries(double *s, int n, enum dynsys type)
 {
@@ -30,6 +30,10 @@ void genseries(double *s, int n, enum dynsys type)
 				y = B * s[i - 2];
 				s[i] = 1 - A * x * x + y;
 			}
+			break;
+		case REAL_WLD:
+			for (i = 0; i < n; ++i)
+				scanf("%lf\n", s + i);
 			break;
 	}
 }
@@ -76,8 +80,9 @@ void predict(double *data, int n, int dim, int ord, int tmax, double *pred)
 	dmin = vector(ord);
 	set(dmin, ord, DBL_MAX);
 	x = data + n - dim;
+	n -= (dim > tmax) ? dim : tmax;
 
-	for (i = 0; i < n - tmax; ++i) {
+	for (i = 0; i < n; ++i) {
 		d = dist(data + i, x, dim);
 		for (j = 0; j < ord; ++j) {
 			if (d < dmin[j]) {
